@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["../../../../../../../../KARWAN~1/AppData/Local/Temp/tmp9n0psi22/src/features/health/healthHandler.ts"],
+  "sourcesContent": ["import type { APIGatewayProxyResult } from \"aws-lambda\";\r\n\r\nexport async function handler(): Promise<APIGatewayProxyResult> {\r\n  return {\r\n    statusCode: 200,\r\n    headers: {\r\n      \"Content-Type\": \"application/json\",\r\n    },\r\n    body: JSON.stringify({\r\n      status: \"ok\",\r\n      uploadedAt: new Date().toISOString,\r\n    }),\r\n  };\r\n}\r\n"],
+  "mappings": ";;;;;;;;;;;;;;;;;;;;AAAA;AAAA;AAAA;AAAA;AAAA;AAEA,eAAsB,UAA0C;AAC9D,SAAO;AAAA,IACL,YAAY;AAAA,IACZ,SAAS;AAAA,MACP,gBAAgB;AAAA,IAClB;AAAA,IACA,MAAM,KAAK,UAAU;AAAA,MACnB,QAAQ;AAAA,MACR,aAAY,oBAAI,KAAK,GAAE;AAAA,IACzB,CAAC;AAAA,EACH;AACF;",
+  "names": []
+}

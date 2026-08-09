@@ -1,0 +1,21 @@
+{
+  "name": "inkboard",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/shekhe9920/inkboard.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/shekhe9920/inkboard/issues"
+  },
+  "homepage": "https://github.com/shekhe9920/inkboard#readme"
+}
