@@ -1,6 +1,17 @@
 AWSTemplateFormatVersion: '2010-09-09'
 Transform: AWS::Serverless-2016-10-31
 Resources:
+  NotesTable:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      TableName: inkboard-notes
+      BillingMode: PAY_PER_REQUEST
+      AttributeDefinitions:
+      - AttributeName: id
+        AttributeType: S
+      KeySchema:
+      - AttributeName: id
+        KeyType: HASH
   HealthFunction:
     Type: AWS::Serverless::Function
     Properties:
@@ -25,3 +36,96 @@ Resources:
         Sourcemap: true
         Target: es2022
       SamResourceId: HealthFunction
+  CreateNoteApi:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: CreateNoteApi
+      Handler: createNoteHandler.createNoteHandler
+      Runtime: nodejs22.x
+      Environment:
+        Variables:
+          NOTES_TABLE_NAME:
+            Ref: NotesTable
+          DYNAMODB_ENDPOINT: ''
+          NODE_OPTIONS: ' --enable-source-maps'
+      Policies:
+      - DynamoDBCrudPolicy:
+          TableName:
+            Ref: NotesTable
+      Events:
+        HealthApi:
+          Type: Api
+          Properties:
+            Path: /notes
+            Method: post
+    Metadata:
+      BuildMethod: esbuild
+      BuildProperties:
+        EntryPoints:
+        - src/features/notes/handlers/createNoteHandler.ts
+        Minify: false
+        Sourcemap: true
+        Target: es2022
+      SamResourceId: CreateNoteApi
+  GetNoteByIdApi:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: GetNoteByIdApi
+      Handler: getNoteByIdHandler.getNoteByIdHandler
+      Runtime: nodejs22.x
+      Environment:
+        Variables:
+          NOTES_TABLE_NAME:
+            Ref: NotesTable
+          DYNAMODB_ENDPOINT: ''
+          NODE_OPTIONS: ' --enable-source-maps'
+      Policies:
+      - DynamoDBCrudPolicy:
+          TableName:
+            Ref: NotesTable
+      Events:
+        HealthApi:
+          Type: Api
+          Properties:
+            Path: /notes/{id}
+            Method: get
+    Metadata:
+      BuildMethod: esbuild
+      BuildProperties:
+        EntryPoints:
+        - src/features/notes/handlers/getNoteByIdHandler.ts
+        Minify: false
+        Sourcemap: true
+        Target: es2022
+      SamResourceId: GetNoteByIdApi
+  GetAllNotesApi:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: GetAllNotesApi
+      Handler: getAllNotesHandler.getAllNotesHandler
+      Runtime: nodejs22.x
+      Environment:
+        Variables:
+          NOTES_TABLE_NAME:
+            Ref: NotesTable
+          DYNAMODB_ENDPOINT: ''
+          NODE_OPTIONS: ' --enable-source-maps'
+      Policies:
+      - DynamoDBCrudPolicy:
+          TableName:
+            Ref: NotesTable
+      Events:
+        HealthApi:
+          Type: Api
+          Properties:
+            Path: /notes
+            Method: get
+    Metadata:
+      BuildMethod: esbuild
+      BuildProperties:
+        EntryPoints:
+        - src/features/notes/handlers/getAllNotesHandler.ts
+        Minify: false
+        Sourcemap: true
+        Target: es2022
+      SamResourceId: GetAllNotesApi
