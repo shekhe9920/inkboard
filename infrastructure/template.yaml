@@ -2,21 +2,6 @@ AWSTemplateFormatVersion: "2010-09-09"
 Transform: AWS::Serverless-2016-10-31
 
 Resources:
-  # -------- DYNAMODB-TABLES --------
-  NotesTable:
-    Type: AWS::DynamoDB::Table
-    Properties:
-      TableName: inkboard-notes
-      BillingMode: PAY_PER_REQUEST
-      AttributeDefinitions:
-        - AttributeName: id
-          AttributeType: S
-      KeySchema:
-        - AttributeName: id
-          KeyType: HASH
-
-  # -------- LAMBDAS --------
-
   HealthFunction:
     Type: AWS::Serverless::Function
     Properties:
@@ -40,7 +25,7 @@ Resources:
         EntryPoints:
           - src/features/health/healthHandler.ts
 
-  CreateNoteApi:
+  CreateNoteFunction:
     Type: AWS::Serverless::Function
     Properties:
       CodeUri: ../apps/api
@@ -57,7 +42,7 @@ Resources:
             TableName: !Ref NotesTable
 
       Events:
-        HealthApi:
+        CreateNoteApi:
           Type: Api
           Properties:
             Path: /notes
@@ -72,7 +57,7 @@ Resources:
         EntryPoints:
           - src/features/notes/handlers/createNoteHandler.ts
 
-  GetNoteByIdApi:
+  GetNoteByIdFunction:
     Type: AWS::Serverless::Function
     Properties:
       CodeUri: ../apps/api
@@ -89,7 +74,7 @@ Resources:
             TableName: !Ref NotesTable
 
       Events:
-        HealthApi:
+        GetNoteByIdApi:
           Type: Api
           Properties:
             Path: /notes/{id}
@@ -104,7 +89,7 @@ Resources:
         EntryPoints:
           - src/features/notes/handlers/getNoteByIdHandler.ts
 
-  GetAllNotesApi:
+  GetAllNotesFunction:
     Type: AWS::Serverless::Function
     Properties:
       CodeUri: ../apps/api
@@ -121,7 +106,7 @@ Resources:
             TableName: !Ref NotesTable
 
       Events:
-        HealthApi:
+        GetAllNotesApi:
           Type: Api
           Properties:
             Path: /notes
@@ -135,3 +120,79 @@ Resources:
         Sourcemap: true
         EntryPoints:
           - src/features/notes/handlers/getAllNotesHandler.ts
+
+  UpdateNoteFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: ../apps/api
+      Handler: src/features/notes/handlers/updateNoteHandler.updateNoteHandler
+      Runtime: nodejs22.x
+
+      Environment:
+        Variables:
+          NOTES_TABLE_NAME: !Ref NotesTable
+          DYNAMODB_ENDPOINT: ""
+
+      Policies:
+        - DynamoDBCrudPolicy:
+            TableName: !Ref NotesTable
+
+      Events:
+        CreateNoteApi:
+          Type: Api
+          Properties:
+            Path: /notes/{id}
+            Method: patch
+
+    Metadata:
+      BuildMethod: esbuild
+      BuildProperties:
+        Minify: false
+        Target: es2022
+        Sourcemap: true
+        EntryPoints:
+          - src/features/notes/handlers/updateNoteHandler.ts
+
+  DeleteNoteByIdFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: ../apps/api
+      Handler: src/features/notes/handlers/deleteNoteByIdHandler.deleteNoteByIdHandler
+      Runtime: nodejs22.x
+
+      Environment:
+        Variables:
+          NOTES_TABLE_NAME: !Ref NotesTable
+          DYNAMODB_ENDPOINT: ""
+
+      Policies:
+        - DynamoDBCrudPolicy:
+            TableName: !Ref NotesTable
+
+      Events:
+        DeleteNoteByIdApi:
+          Type: Api
+          Properties:
+            Path: /notes/{id}
+            Method: delete
+
+    Metadata:
+      BuildMethod: esbuild
+      BuildProperties:
+        Minify: false
+        Target: es2022
+        Sourcemap: true
+        EntryPoints:
+          - src/features/notes/handlers/deleteNoteByIdHandler.ts
+
+  NotesTable:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      TableName: inkboard-notes
+      BillingMode: PAY_PER_REQUEST
+      AttributeDefinitions:
+        - AttributeName: id
+          AttributeType: S
+      KeySchema:
+        - AttributeName: id
+          KeyType: HASH

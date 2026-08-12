@@ -26,6 +26,19 @@ EntryPoints = ["src/features/health/healthHandler.ts"]
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
 [function_build_definitions.11527599-428e-47f8-bd22-ea31e355c653]
 codeuri = "C:\\Users\\Karwan Shekhe\\Desktop\\projects\\inkboard\\apps\\api"
 runtime = "nodejs22.x"
@@ -33,7 +46,7 @@ architecture = "x86_64"
 handler = "src/features/notes/handlers/createNoteHandler.createNoteHandler"
 manifest_hash = ""
 packagetype = "Zip"
-functions = ["CreateNoteApi"]
+functions = ["CreateNoteFunction"]
 
 [function_build_definitions.11527599-428e-47f8-bd22-ea31e355c653.metadata]
 BuildMethod = "esbuild"
@@ -49,6 +62,19 @@ EntryPoints = ["src/features/notes/handlers/createNoteHandler.ts"]
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
 [function_build_definitions.13e0cddf-a2a3-4a37-827c-13db685b1120]
 codeuri = "C:\\Users\\Karwan Shekhe\\Desktop\\projects\\inkboard\\apps\\api"
 runtime = "nodejs22.x"
@@ -56,7 +82,7 @@ architecture = "x86_64"
 handler = "src/features/notes/handlers/getNoteByIdHandler.getNoteByIdHandler"
 manifest_hash = ""
 packagetype = "Zip"
-functions = ["GetNoteByIdApi"]
+functions = ["GetNoteByIdFunction"]
 
 [function_build_definitions.13e0cddf-a2a3-4a37-827c-13db685b1120.metadata]
 BuildMethod = "esbuild"
@@ -72,6 +98,19 @@ EntryPoints = ["src/features/notes/handlers/getNoteByIdHandler.ts"]
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
 [function_build_definitions.e24162cd-7714-49d5-95d1-498f8fd09abd]
 codeuri = "C:\\Users\\Karwan Shekhe\\Desktop\\projects\\inkboard\\apps\\api"
 runtime = "nodejs22.x"
@@ -79,7 +118,7 @@ architecture = "x86_64"
 handler = "src/features/notes/handlers/getAllNotesHandler.getAllNotesHandler"
 manifest_hash = ""
 packagetype = "Zip"
-functions = ["GetAllNotesApi"]
+functions = ["GetAllNotesFunction"]
 
 [function_build_definitions.e24162cd-7714-49d5-95d1-498f8fd09abd.metadata]
 BuildMethod = "esbuild"
@@ -89,6 +128,76 @@ Minify = false
 Target = "es2022"
 Sourcemap = true
 EntryPoints = ["src/features/notes/handlers/getAllNotesHandler.ts"]
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+[function_build_definitions.7e7649a7-0180-4910-9a5a-af12dde3a047]
+codeuri = "C:\\Users\\Karwan Shekhe\\Desktop\\projects\\inkboard\\apps\\api"
+runtime = "nodejs22.x"
+architecture = "x86_64"
+handler = "src/features/notes/handlers/deleteNoteByIdHandler.deleteNoteByIdHandler"
+manifest_hash = ""
+packagetype = "Zip"
+functions = ["DeleteNoteByIdFunction"]
+
+[function_build_definitions.7e7649a7-0180-4910-9a5a-af12dde3a047.metadata]
+BuildMethod = "esbuild"
+
+[function_build_definitions.7e7649a7-0180-4910-9a5a-af12dde3a047.metadata.BuildProperties]
+Minify = false
+Target = "es2022"
+Sourcemap = true
+EntryPoints = ["src/features/notes/handlers/deleteNoteByIdHandler.ts"]
+
+
+
+
+
+
+
+
+
+
+
+
+
+[function_build_definitions.77ca7df2-8005-41e6-90ca-8ebd8a91758e]
+codeuri = "C:\\Users\\Karwan Shekhe\\Desktop\\projects\\inkboard\\apps\\api"
+runtime = "nodejs22.x"
+architecture = "x86_64"
+handler = "src/features/notes/handlers/updateNoteHandler.updateNoteHandler"
+manifest_hash = ""
+packagetype = "Zip"
+functions = ["UpdateNoteFunction"]
+
+[function_build_definitions.77ca7df2-8005-41e6-90ca-8ebd8a91758e.metadata]
+BuildMethod = "esbuild"
+
+[function_build_definitions.77ca7df2-8005-41e6-90ca-8ebd8a91758e.metadata.BuildProperties]
+Minify = false
+Target = "es2022"
+Sourcemap = true
+EntryPoints = ["src/features/notes/handlers/updateNoteHandler.ts"]
+
+
+
+
 
 
 
