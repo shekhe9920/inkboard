@@ -1,11 +1,12 @@
-import type { Note } from "../types/noteTypes.js";
+import type { Note, UpdateNoteInput } from "../types/noteTypes.js";
 import type { NoteRepository } from "./noteRepository.js";
 import {
   DynamoDBDocumentClient,
   PutCommand,
   ScanCommand,
   GetCommand,
-  //DeleteCommand,
+  DeleteCommand,
+  UpdateCommand,
 } from "@aws-sdk/lib-dynamodb";
 
 export class DynamoDbNoteRepository implements NoteRepository {
@@ -19,6 +20,9 @@ export class DynamoDbNoteRepository implements NoteRepository {
 
   async save(note: Note): Promise<Note> {
     try {
+      if (!note.title) {
+        note.title = "New Note";
+      }
       const saveCommand = new PutCommand({
         TableName: this.tableName,
         Item: note,
@@ -59,6 +63,70 @@ export class DynamoDbNoteRepository implements NoteRepository {
       return (response.Items ?? []) as Note[];
     } catch (error) {
       console.log("DynamoDbNoteRepository 'get all' error: ", error);
+      throw error;
+    }
+  }
+
+  async update(id: string, input: UpdateNoteInput): Promise<Note | undefined> {
+    try {
+      const updates: string[] = [];
+      const values: Record<string, unknown> = {};
+
+      if (input.title !== undefined) {
+        updates.push("title = :title");
+        values[":title"] = input.title;
+      }
+
+      if (input.content !== undefined) {
+        updates.push("content = :content");
+        values[":content"] = input.content;
+      }
+
+      const now = new Date().toISOString();
+      updates.push("updatedAt = :updatedAt");
+      values[":updatedAt"] = now;
+
+      const updateCommand = new UpdateCommand({
+        TableName: this.tableName,
+        Key: {
+          id: id,
+        },
+        UpdateExpression: `SET ${updates.join(", ")}`,
+        ExpressionAttributeValues: values,
+        ConditionExpression: "attribute_exists(id)",
+        ReturnValues: "ALL_NEW",
+      });
+
+      const response = await this.client.send(updateCommand);
+
+      return response.Attributes as Note | undefined;
+    } catch (error) {
+      if (
+        error instanceof Error &&
+        error.name === "ConditionalCheckFailedException"
+      ) {
+        return undefined;
+      }
+
+      console.log("DynamoDbNoteRepository 'update note' error: ", error);
+      throw error;
+    }
+  }
+
+  async deleteById(id: string): Promise<Note | undefined> {
+    try {
+      const deleteByIdCommand = new DeleteCommand({
+        TableName: this.tableName,
+        Key: {
+          id: id,
+        },
+        ReturnValues: "ALL_OLD",
+      });
+
+      const response = await this.client.send(deleteByIdCommand);
+      return response.Attributes as Note | undefined;
+    } catch (error) {
+      console.log("DynamoDbNoteRepository 'delete by id' error: ", error);
       throw error;
     }
   }

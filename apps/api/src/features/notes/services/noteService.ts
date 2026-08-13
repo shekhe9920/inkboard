@@ -1,4 +1,8 @@
-import type { Note, CreateNoteInput } from "../types/noteTypes.js";
+import type {
+  Note,
+  CreateNoteInput,
+  UpdateNoteInput,
+} from "../types/noteTypes.js";
 import type { NoteRepository } from "../repository/noteRepository.js";
 import { randomUUID } from "node:crypto";
 
@@ -31,5 +35,16 @@ export class NoteService {
 
   async getAllNotes(): Promise<Note[]> {
     return this.repository.getAll();
+  }
+
+  async updateNote(
+    id: string,
+    item: UpdateNoteInput,
+  ): Promise<Note | undefined> {
+    return this.repository.update(id, item);
+  }
+
+  async deleteNoteById(id: string): Promise<Note | undefined> {
+    return this.repository.deleteById(id);
   }
 }

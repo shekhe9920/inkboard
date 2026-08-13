@@ -1,6 +1,6 @@
 import type { APIGatewayProxyResult } from "aws-lambda";
 
-export async function handler(): Promise<APIGatewayProxyResult> {
+export async function heathHandler(): Promise<APIGatewayProxyResult> {
   return {
     statusCode: 200,
     headers: {

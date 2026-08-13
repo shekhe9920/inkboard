@@ -6,7 +6,7 @@ Resources:
     Type: AWS::Serverless::Function
     Properties:
       CodeUri: ../apps/api
-      Handler: src/features/health/healthHandler.handler
+      Handler: src/features/health/healthHandler.healthHandler
       Runtime: nodejs22.x
 
       Events:

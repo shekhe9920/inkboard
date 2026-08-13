@@ -17,5 +17,8 @@
   "bugs": {
     "url": "https://github.com/shekhe9920/inkboard/issues"
   },
-  "homepage": "https://github.com/shekhe9920/inkboard#readme"
+  "homepage": "https://github.com/shekhe9920/inkboard#readme",
+  "devDependencies": {
+    "vitest": "^4.1.10"
+  }
 }
