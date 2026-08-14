@@ -20,9 +20,6 @@ export class DynamoDbNoteRepository implements NoteRepository {
 
   async save(note: Note): Promise<Note> {
     try {
-      if (!note.title) {
-        note.title = "New Note";
-      }
       const saveCommand = new PutCommand({
         TableName: this.tableName,
         Item: note,

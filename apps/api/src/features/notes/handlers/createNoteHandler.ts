@@ -29,15 +29,11 @@ export async function createNoteHandler(
     const title = parseBody.title;
     const content = parseBody.content;
 
-    if (
-      typeof title !== "string" ||
-      title.trim() === "" ||
-      typeof content !== "string"
-    ) {
+    if (typeof title !== "string" || typeof content !== "string") {
       return errorResponse(
         400,
         "Bad Request",
-        "title and content must be strings, and title cannot be empty",
+        "title and content must be strings",
       );
     }
 

@@ -34,6 +34,17 @@ describe("NoteService Test", () => {
     expect(response.updatedAt).toBe(response.createdAt);
   });
 
+  it("should set title to 'New Note' when title is blank", async () => {
+    const note = {
+      title: "   ",
+      content: "Hello",
+    };
+
+    const createdNote = await service.createNote(note);
+
+    expect(createdNote.title).toBe("New Note");
+  });
+
   it("should find note by id", async () => {
     const input = {
       title: "Test note",
