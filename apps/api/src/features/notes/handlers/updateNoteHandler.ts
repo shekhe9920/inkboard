@@ -72,7 +72,7 @@ export async function updateNoteHandler(
       return errorResponse(
         400,
         "Bad Request",
-        "Request body must cotain valid json",
+        "Request body must contain valid JSON",
       );
     }
 
